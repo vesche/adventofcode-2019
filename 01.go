@@ -10,6 +10,8 @@ import (
 func main() {
 	file, _ := os.Open("01_input.txt")
 	scanner := bufio.NewScanner(file)
+	defer file.Close()
+
 	var part1, part2 int
 	for scanner.Scan() {
 		i, _ := strconv.Atoi(scanner.Text())
@@ -24,9 +26,7 @@ func main() {
 				part1 += i
 				first = false
 			}
-
 		}
 	}
-	fmt.Println(part1, part2)
-	defer file.Close()
+	fmt.Printf("part1: %d\npart2: %d\n", part1, part2)
 }
