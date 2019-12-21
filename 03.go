@@ -8,13 +8,14 @@ import (
 )
 
 type coord struct {
-	x int
-	y int
+	x     int
+	y     int
+	steps int
 }
 
 var coords_a = []coord{}
 var coords_b = []coord{}
-var ax, ay, bx, by int
+var ax, ay, bx, by, sa, sb int
 
 func parseMove(s string) (string, int) {
 	dir := string(s[0])
@@ -51,9 +52,11 @@ func moveWire(dir string, n int, wire string) {
 		}
 
 		if wire == "a" {
-			coords_a = append(coords_a, coord{ax, ay})
+			sa += 1
+			coords_a = append(coords_a, coord{ax, ay, sa})
 		} else {
-			coords_b = append(coords_b, coord{bx, by})
+			sb += 1
+			coords_b = append(coords_b, coord{bx, by, sb})
 		}
 	}
 }
@@ -63,6 +66,16 @@ func abs(x int) int {
 		return -x
 	}
 	return x
+}
+
+func getMin(int_list []int) int {
+	var min int
+	for i, val := range int_list {
+		if i == 0 || val < min {
+			min = val
+		}
+	}
+	return min
 }
 
 func main() {
@@ -78,21 +91,18 @@ func main() {
 		moveWire(dir_b, n_b, "b")
 	}
 
-	crosses := []int{}
+	crosses, steps := []int{}, []int{}
 	for _, ca := range coords_a {
 		for _, cb := range coords_b {
 			if ca.x == cb.x && ca.y == cb.y {
 				crosses = append(crosses, abs(ca.x)+abs(ca.y))
+				steps = append(steps, ca.steps+cb.steps)
 			}
 		}
 	}
 
-	var part1 int
-	for i, val := range crosses {
-		if i == 0 || val < part1 {
-			part1 = val
-		}
-	}
+	part1 := getMin(crosses)
+	part2 := getMin(steps)
 
-	fmt.Printf("part1: %d\npart2: %d\n", part1, 0)
+	fmt.Printf("part1: %d\npart2: %d\n", part1, part2)
 }
