@@ -28,26 +28,16 @@ func checkDouble(n_str string, p2 bool) bool {
 			if p2 {
 				i := strings.Index(n_str, d)
 				c := d[0]
-				if i == 0 {
-					if n_str[2] == c {
-						continue
-					}
-				} else if i == 1 {
-					if n_str[0] == c || n_str[3] == c {
-						continue
-					}
-				} else if i == 2 {
-					if n_str[1] == c || n_str[4] == c {
-						continue
-					}
-				} else if i == 3 {
-					if n_str[2] == c || n_str[5] == c {
-						continue
-					}
-				} else if i == 4 {
-					if n_str[3] == c {
-						continue
-					}
+				if i == 0 && n_str[2] == c {
+					continue
+				} else if i == 1 && (n_str[0] == c || n_str[3] == c) {
+					continue
+				} else if i == 2 && (n_str[1] == c || n_str[4] == c) {
+					continue
+				} else if i == 3 && (n_str[2] == c || n_str[5] == c) {
+					continue
+				} else if i == 4 && n_str[3] == c {
+					continue
 				}
 			}
 			return true
@@ -58,7 +48,7 @@ func checkDouble(n_str string, p2 bool) bool {
 
 func main() {
 	lbound, ubound := 246540, 787419
-	part1, part2 := 0, 0
+	var part1, part2 int
 
 	for n := lbound; n < ubound; n++ {
 		n_str := strconv.Itoa(n)
